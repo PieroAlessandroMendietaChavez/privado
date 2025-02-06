@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación San Valentín 💖</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background: url('https://cafe.museolarco.org/wp-content/uploads/2018/03/restaurant.jpg') no-repeat center center/cover;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: rgba(255, 182, 193, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            transition: all 0.5s ease;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .big-heart {
+            font-size: 50px;
+            margin-top: 20px;
+        }
+
+        button {
+            font-size: 20px;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+
+        .yes-btn {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .no-btn {
+            background-color: #f44336;
+            color: white;
+            position: relative;
+        }
+
+        @keyframes fadeOut {
+            0% { opacity: 1; }
+            100% { opacity: 0; transform: scale(1.5); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="messageBox">
+        <h1>Mi niña preciosa, ¿estarías dispuesta a querer leer una linda invitación? ❤️</h1>
+        <button class="yes-btn" onclick="showLoveMessage()">Sí</button>
+        <button class="no-btn" id="noButton" onclick="changeText()">No</button>
+    </div>
+
+    <script>
+        let laughInterval;
+
+        function showLoveMessage() {
+            if (laughInterval) clearInterval(laughInterval);
+            
+            let messageBox = document.getElementById("messageBox");
+            messageBox.innerHTML = `
+                <h1>YO SABÍA QUE IBAS A DECIR QUE SÍ, MI NIÑA</h1>
+                <div class="big-heart">❤️</div>
+                <button class="yes-btn" onclick="downloadPDF()">Descargar la mejor invitación del mundo 💕</button>
+            `;
+            messageBox.style.padding = "40px";
+            messageBox.style.fontSize = "24px";
+        }
+
+        function downloadPDF() {
+            const pdfUrl = "https://drive.google.com/uc?export=download&id=1o24aHaTdf0EPUNR9TXvJI1KMIwLKYVb9";
+            const link = document.createElement("a");
+            link.href = pdfUrl;
+            link.download = "InvitacionSanValentin.pdf";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        let clickCount = 0;
+        const messages = [
+            "QUÉ HACES",
+            "ESTÁS LOCA",
+            "TE VAS A ARREPENTIR",
+            "¿POR QUÉ ERES TERCA?",
+            "NUNCA PODRÁS DECIR QUE NO"
+        ];
+
+        function changeText() {
+            let noButton = document.getElementById("noButton");
+            if (!noButton) return;
+            
+            if (clickCount < messages.length) {
+                noButton.textContent = messages[clickCount];
+                clickCount++;
+                showWarningMessages();
+            } else {
+                noButton.style.position = "absolute";
+                noButton.style.transition = "top 0.2s, left 0.2s";
+                document.body.addEventListener("mousemove", moveButton);
+            }
+        }
+
+        function moveButton(event) {
+            let noButton = document.getElementById("noButton");
+            if (!noButton) return;
+            
+            let randomX = Math.random() * (window.innerWidth - noButton.clientWidth);
+            let randomY = Math.random() * (window.innerHeight - noButton.clientHeight);
+            noButton.style.left = `${randomX}px`;
+            noButton.style.top = `${randomY}px`;
+        }
+
+        function showWarningMessages() {
+            let warningText = clickCount < messages.length ? messages[clickCount - 1] : "JA JA JA";
+            for (let i = 0; i < 10; i++) {
+                let warning = document.createElement("div");
+                warning.innerHTML = warningText;
+                warning.style.position = "absolute";
+                warning.style.left = Math.random() * window.innerWidth + "px";
+                warning.style.top = Math.random() * window.innerHeight + "px";
+                warning.style.color = "#ff0000"; warning.style.backgroundColor = "#ffff00"; warning.style.padding = "5px"; warning.style.borderRadius = "5px";
+                warning.style.fontSize = "20px";
+                warning.style.fontWeight = "bold";
+                warning.style.animation = "fadeOut 2s ease-out forwards";
+                document.body.appendChild(warning);
+                setTimeout(() => warning.remove(), 2000);
+            }
+            if (clickCount >= messages.length) {
+                laughInterval = setInterval(() => {
+                    for (let i = 0; i < 15; i++) {
+                        let laugh = document.createElement("div");
+                        laugh.innerHTML = "JA JA JA";
+                        laugh.style.position = "absolute";
+                        laugh.style.left = Math.random() * window.innerWidth + "px";
+                        laugh.style.top = Math.random() * window.innerHeight + "px";
+                        laugh.style.color = "#ff0000"; laugh.style.backgroundColor = "#ffff00"; laugh.style.padding = "5px"; laugh.style.borderRadius = "5px";
+                        laugh.style.fontSize = "30px";
+                        laugh.style.fontWeight = "bold";
+                        laugh.style.animation = "fadeOut 2s ease-out forwards";
+                        document.body.appendChild(laugh);
+                        setTimeout(() => laugh.remove(), 2000);
+                    }
+                }, 700);
+            }
+        }
+    </script>
+</body>
+</html>
